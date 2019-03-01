@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Google Maps API 2019</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  </head>
+  <body>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmr48lRV2B5q65zUoAjFtJS88BWuMfH9U&callback=initMap" async defer></script>
+    <script src="map.js"></script>
+
+    <div id="map" class="split left"></div>
+    <div class="split right">
+
+      <!-- Simple header with fixed tabs. -->
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+      mdl-layout--fixed-tabs">
+        <header class="mdl-layout__header">
+          <div class="mdl-layout__header-row">
+
+            <!-- Title -->
+            <span class="mdl-layout-title">Google Maps API Showcase</span>
+          </div>
+
+          <!-- Tabs -->
+          <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+            <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Part 1</a>
+            <a href="#fixed-tab-2" class="mdl-layout__tab">Part 2</a>
+            <a href="#fixed-tab-3" class="mdl-layout__tab">Part 3</a>
+            <a href="#fixed-tab-4" class="mdl-layout__tab">Part 4</a>
+          </div>
+        </header>
+
+        <main class="mdl-layout__content">
+
+          <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+            <div class="page-content">
+              <div class="mdl-grid">
+
+                <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
+                  <h4>Details</h4>
+                  This section demonstrates basic functionalities of the Google
+                  Maps API
+                </div>
+
+
+                <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
+                  <!-- Colored raised button -->
+                  <button id="centerModalBtn"
+                          class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                    SET CENTER
+                  </button>
+
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                          onclick="addRandomMarker()">
+                    ADD RANDOM
+                  </button>
+
+                  <button id="antipodeModalBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                    ADD ANTIPODE
+                  </button>
+
+                  <!-- Center Modal -->
+                  <div id="centerModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                      <h4>Enter the coordinates</h4>
+                      <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input"
+                               type="text"
+                               pattern="-?[0-9]*(\.[0-9]+)?"
+                               id="centerLat">
+                        <label class="mdl-textfield__label" for="centerLat">
+                          Latitude
+                        </label>
+                        <span class="mdl-textfield__error">
+                          Input is not a number!
+                        </span>
+                      </div>
+
+                      <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input"
+                               type="text"
+                               pattern="-?[0-9]*(\.[0-9]+)?"
+                               id="centerLng">
+                        <label class="mdl-textfield__label" for="centerLng">
+                          Longitude
+                        </label>
+                        <span class="mdl-textfield__error">
+                          Input is not a number!
+                        </span>
+                      </div>
+
+                      <button id="setCenter" class="mdl-button mdl-js-button
+                      mdl-button--raised mdl-button--colored">
+                        SET
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Antipode Modal -->
+                  <div id="antipodeModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                      <h4>Enter the coordinates</h4>
+                      <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input"
+                               type="text"
+                               pattern="-?[0-9]*(\.[0-9]+)?"
+                               id="antiLat">
+                        <label class="mdl-textfield__label" for="antiLat">
+                          Latitude
+                        </label>
+                        <span class="mdl-textfield__error">
+                          Input is not a number!
+                        </span>
+                      </div>
+
+                      <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input"
+                               type="text"
+                               pattern="-?[0-9]*(\.[0-9]+)?"
+                               id="antiLng">
+                        <label class="mdl-textfield__label" for="antiLng">
+                          Longitude
+                        </label>
+                        <span class="mdl-textfield__error">
+                          Input is not a number!
+                        </span>
+                      </div>
+
+                      <button id="setAntipode" class="mdl-button mdl-js-button
+                      mdl-button--raised mdl-button--colored">
+                        SET
+                      </button>
+                    </div>
+                  </div>
+                </div>
+          </section>
+
+          <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+            <div class="page-content">
+
+              <div class="mdl-grid">
+
+                <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
+                  <h4>Details</h4>
+                  This section demonstrates <i>infoWindows</i> and adding
+                  square boundaries to the map
+                </div>
+
+
+                <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
+
+                  <!-- Colored raised button -->
+                  <button id="areaModalBtn"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                    ADD MARKER
+                  </button>
+
+                  <!-- Area Modal -->
+                  <div id="areaModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                      <h4>Enter the coordinates</h4>
+                      <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input"
+                               type="text"
+                               pattern="-?[0-9]*(\.[0-9]+)?"
+                               id="areaLat">
+                        <label class="mdl-textfield__label" for="areaLat">
+                          Latitude
+                        </label>
+                        <span class="mdl-textfield__error">
+                          Input is not a number!
+                        </span>
+                      </div>
+
+                      <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input"
+                               type="text"
+                               pattern="-?[0-9]*(\.[0-9]+)?"
+                               id="areaLng">
+                        <label class="mdl-textfield__label" for="areaLng">
+                          Longitude
+                        </label>
+                        <span class="mdl-textfield__error">
+                          Input is not a number!
+                        </span>
+                      </div>
+
+                      <button id="setArea" class="mdl-button mdl-js-button
+                      mdl-button--raised mdl-button--colored">
+                        SET
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+            <div class="page-content">
+
+              <div class="mdl-grid">
+
+                <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
+                  <h4>Details</h4>
+                  This section demonstrates the usage of <i>Polygons</i> and
+                  as well as <i>mouseout</i> and <i>mouseover</i> events
+                </div>
+
+
+                <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
+
+                  <!-- Colored raised button -->
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    onclick="togglePolygonMode()">
+                    TOGGLE DRAWING
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <section class="mdl-layout__tab-panel" id="fixed-tab-4">
+            <div class="page-content">
+              <div class="mdl-grid">
+
+                <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
+                  <h4>Details</h4>
+                  This section is not finished yet
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </main>
+              </div>
+            </div>
+  </body>
+</html>
