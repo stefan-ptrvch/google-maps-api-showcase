@@ -50,16 +50,32 @@
                 <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
                   <!-- Colored raised button -->
                   <button id="centerModalBtn"
-                          class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                          class="mdl-button
+                          mdl-js-button
+                          mdl-button--raised
+                          mdl-button--colored
+                          mdl-js-button
+                          mdl-js-ripple-effect">
                     SET CENTER
                   </button>
 
-                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  <button class="mdl-button
+                          mdl-js-button
+                          mdl-button--raised
+                          mdl-button--colored
+                          mdl-js-button
+                          mdl-js-ripple-effect"
                           onclick="addRandomMarker()">
                     ADD RANDOM
                   </button>
 
-                  <button id="antipodeModalBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                  <button id="antipodeModalBtn"
+                    class="mdl-button
+                    mdl-js-button
+                    mdl-button--raised
+                    mdl-button--colored
+                    mdl-js-button
+                    mdl-js-ripple-effect">
                     ADD ANTIPODE
                   </button>
 
@@ -95,8 +111,13 @@
                         </span>
                       </div>
 
-                      <button id="setCenter" class="mdl-button mdl-js-button
-                      mdl-button--raised mdl-button--colored">
+                      <button id="setCenter"
+                      class="mdl-button
+                      mdl-js-button
+                      mdl-button--raised
+                      mdl-button--colored
+                      mdl-js-button
+                      mdl-js-ripple-effect">
                         SET
                       </button>
                     </div>
@@ -134,8 +155,13 @@
                         </span>
                       </div>
 
-                      <button id="setAntipode" class="mdl-button mdl-js-button
-                      mdl-button--raised mdl-button--colored">
+                      <button id="setAntipode"
+                      class="mdl-button
+                      mdl-js-button
+                      mdl-button--raised
+                      mdl-button--colored
+                      mdl-js-button
+                      mdl-js-ripple-effect">
                         SET
                       </button>
                     </div>
@@ -159,7 +185,12 @@
 
                   <!-- Colored raised button -->
                   <button id="areaModalBtn"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                    class="mdl-button
+                    mdl-js-button
+                    mdl-button--raised
+                    mdl-button--colored
+                    mdl-js-button
+                    mdl-js-ripple-effect">
                     ADD MARKER
                   </button>
 
@@ -195,8 +226,13 @@
                         </span>
                       </div>
 
-                      <button id="setArea" class="mdl-button mdl-js-button
-                      mdl-button--raised mdl-button--colored">
+                      <button id="setArea"
+                      class="mdl-button
+                      mdl-js-button
+                      mdl-button--raised
+                      mdl-button--colored
+                      mdl-js-button
+                      mdl-js-ripple-effect">
                         SET
                       </button>
                     </div>
@@ -223,7 +259,12 @@
                 <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
 
                   <!-- Colored raised button -->
-                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  <button class="mdl-button
+                          mdl-js-button
+                          mdl-button--raised
+                          mdl-button--colored
+                          mdl-js-button
+                          mdl-js-ripple-effect"
                     onclick="togglePolygonMode()">
                     TOGGLE DRAWING
                   </button>
@@ -239,7 +280,114 @@
 
                 <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
                   <h4>Details</h4>
-                  This section is not finished yet
+                  This section demonstrates routes, <i>Street View</i> image
+                  extraction, different color markers and <i>Polylines</i>
+                </div>
+
+                <div class="mdl-cell mdl-cell--10-col md-cell--center md-cell--middle">
+
+                  <!-- Colored raised button -->
+                  <button id="routeModalBtn"
+                    class="mdl-button
+                    mdl-js-button
+                    mdl-button--raised
+                    mdl-button--colored
+                    mdl-js-button
+                    mdl-js-ripple-effect">
+                    ADD ROUTE
+                  </button>
+
+                  <!-- Area Modal -->
+                  <div id="routeModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                      <h6>Source Location</h5>
+                      <div class="mdl-grid">
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--6-col">
+                          <input class="mdl-textfield__input"
+                                 type="text"
+                                 pattern="-?[0-9]*(\.[0-9]+)?"
+                                 id="routeSrcLat">
+                          <label class="mdl-textfield__label" for="routeSrcLat">
+                            Latitude
+                          </label>
+                          <span class="mdl-textfield__error">
+                            Input is not a number!
+                          </span>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--6-col">
+                          <input class="mdl-textfield__input"
+                                 type="text"
+                                 pattern="-?[0-9]*(\.[0-9]+)?"
+                                 id="routeSrcLng">
+                          <label class="mdl-textfield__label" for="routeSrcLng">
+                            Longitude
+                          </label>
+                          <span class="mdl-textfield__error">
+                            Input is not a number!
+                          </span>
+                        </div>
+
+                      </div>
+
+                      <h6>Destination Location</h6>
+                      <div class="mdl-grid">
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--6-col">
+                          <input class="mdl-textfield__input"
+                                 type="text"
+                                 pattern="-?[0-9]*(\.[0-9]+)?"
+                                 id="routeDstLat">
+                          <label class="mdl-textfield__label" for="routeDstLat">
+                            Latitude
+                          </label>
+                          <span class="mdl-textfield__error">
+                            Input is not a number!
+                          </span>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--6-col">
+                          <input class="mdl-textfield__input"
+                                 type="text"
+                                 pattern="-?[0-9]*(\.[0-9]+)?"
+                                 id="routeDstLng">
+                          <label class="mdl-textfield__label" for="routeDstLng">
+                            Longitude
+                          </label>
+                          <span class="mdl-textfield__error">
+                            Input is not a number!
+                          </span>
+                        </div>
+
+                      </div>
+
+
+                      <h6>Routes</h6>
+                      <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input"
+                               type="text"
+                               id="routes">
+                        <label class="mdl-textfield__label" for="routes">
+                          Format: (lat, lng, lat, lng), (lat, lng) ...
+                        </label>
+                      </div>
+
+                      <button id="setRoute"
+                      class="mdl-button
+                      mdl-js-button
+                      mdl-button--raised
+                      mdl-button--colored
+                      mdl-js-button
+                      mdl-js-ripple-effect">
+                        SET
+                      </button>
+
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>

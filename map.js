@@ -30,28 +30,34 @@ function initMap() {
   var centerModal = document.getElementById('centerModal')
   var antipodeModal = document.getElementById('antipodeModal')
   var areaModal = document.getElementById('areaModal')
+  var routeModal = document.getElementById('routeModal')
 
   // Get the buttons
   var centerModalBtn = document.getElementById("centerModalBtn")
   var antipodeModalBtn = document.getElementById("antipodeModalBtn")
   var areaModalBtn = document.getElementById("areaModalBtn")
+  var routeModalBtn = document.getElementById("routeModalBtn")
 
   // When the user clicks on the button, open the modal
   centerModalBtn.onclick = function() {
-    centerModal.style.display = "block";
+    centerModal.style.display = "block"
   }
 
   antipodeModalBtn.onclick = function() {
-    antipodeModal.style.display = "block";
+    antipodeModal.style.display = "block"
   }
 
   areaModalBtn.onclick = function() {
-    areaModal.style.display = "block";
+    areaModal.style.display = "block"
+  }
+
+  routeModalBtn.onclick = function() {
+    routeModal.style.display = "block"
   }
 
   // When the user sets the value, close the modal
   setCenter.onclick = function() {
-    centerModal.style.display = "none";
+    centerModal.style.display = "none"
 
     var latLng = {
       lat: parseFloat(document.getElementById("centerLat").value),
@@ -61,37 +67,43 @@ function initMap() {
   }
 
   setAntipode.onclick = function() {
-    antipodeModal.style.display = "none";
+    antipodeModal.style.display = "none"
     addAntipodeMarker()
   }
 
   setArea.onclick = function() {
-    areaModal.style.display = "none";
+    areaModal.style.display = "none"
     addAreaMarker()
 
     // Disable modal popup
     areaModalBtn.onclick = addAreaMarker
   }
+
+  setRoute.onclick = function() {
+    routeModal.style.display = "none"
+    routeHandler()
+  }
 }
+
 
 // Functions which help calculate distances between two geolocations
 function degreesToRadians(degrees) {
-  return degrees * Math.PI / 180;
+  return degrees * Math.PI / 180
 }
 
 function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
-  var earthRadiusKm = 6371;
+  var earthRadiusKm = 6371
 
-  var dLat = degreesToRadians(lat2-lat1);
-  var dLon = degreesToRadians(lon2-lon1);
+  var dLat = degreesToRadians(lat2-lat1)
+  var dLon = degreesToRadians(lon2-lon1)
 
-  lat1 = degreesToRadians(lat1);
-  lat2 = degreesToRadians(lat2);
+  lat1 = degreesToRadians(lat1)
+  lat2 = degreesToRadians(lat2)
 
   var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return earthRadiusKm * c;
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2)
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+  return earthRadiusKm * c
 }
 
 
@@ -278,7 +290,7 @@ function addAreaMarker() {
       'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
       '(last visited June 22, 2009).</p>'+
       '</div>'+
-      '</div>';
+      '</div>'
 
     // Info windows
     var infowindow0 = new google.maps.InfoWindow({
@@ -433,4 +445,164 @@ function togglePolygonMode() {
     google.maps.event.clearListeners(polygon, 'mouseout')
     polygonEnabled = false
   }
+}
+
+
+// List of map marker URLs
+var markerURLs = [
+"http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+"http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+"http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+"http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+"http://maps.google.com/mapfiles/ms/icons/purple-dot.png",
+"http://maps.google.com/mapfiles/ms/icons/orange-dot.png",
+"http://maps.google.com/mapfiles/ms/icons/pink-dot.png"
+]
+
+var apiKey = 'AIzaSyAmr48lRV2B5q65zUoAjFtJS88BWuMfH9U'
+// Function that handles route painting and extraction of Street View images
+function routeHandler() {
+
+  // Get coordinates
+  var srcLatLng = {
+    lat: parseFloat(document.getElementById("routeSrcLat").value),
+    lng: parseFloat(document.getElementById("routeSrcLng").value)
+  }
+
+  var dstLatLng = {
+    lat: parseFloat(document.getElementById("routeDstLat").value),
+    lng: parseFloat(document.getElementById("routeDstLng").value)
+  }
+
+  // Get routes
+  var routes = document.getElementById("routes").value
+  var reg = /\((.*?)\)/g
+  routes = routes.match(reg)
+
+  for (i = 0; i < routes.length; i++) {
+    routes[i] = routes[i].slice(1, -1).replace(/, +/g, ",").split(',').map(Number)
+  }
+
+  // Add source and destination markers
+
+  // Make marker
+  const iconSize = 45
+
+  var marker = new google.maps.Marker({
+    position: srcLatLng,
+    map: map,
+    icon: {
+      url: randMarker(),
+      scaledSize: new google.maps.Size(iconSize, iconSize)
+    }
+  })
+
+  // Info window
+  var contentString = getIWContent(srcLatLng)
+  var infoWindow = new google.maps.InfoWindow({
+    content: contentString
+  })
+  infoWindow.open(map, marker)
+
+  var marker = new google.maps.Marker({
+    position: dstLatLng,
+    map: map,
+    icon: {
+      url: randMarker(),
+      scaledSize: new google.maps.Size(iconSize, iconSize)
+    }
+  })
+
+  // Info window
+  var contentString = getIWContent(dstLatLng)
+  var infoWindow = new google.maps.InfoWindow({
+    content: contentString
+  })
+  infoWindow.open(map, marker)
+
+  // Draw routes between the markers
+  for (let route of routes) {
+
+    // For polyline
+    var points = []
+
+    // Add source location
+    points.push(srcLatLng)
+
+    for (i = 0; i < route.length; i += 2) {
+
+      // Draw individual marker
+      var latLng = {
+        lat: route[i],
+        lng: route[i + 1]
+      }
+
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+        icon: {
+          url: randMarker(),
+          scaledSize: new google.maps.Size(iconSize, iconSize)
+        }
+
+      })
+
+      // Info window
+      var contentString = getIWContent(latLng)
+      var infoWindow = new google.maps.InfoWindow({
+        content: contentString
+      })
+      infoWindow.open(map, marker)
+
+      // Remember marker for polyline
+      points.push(latLng)
+    }
+
+    // Add destionation location
+    points.push(dstLatLng)
+
+    // Create polyline
+    var polyline = new google.maps.Polyline({
+      path: points,
+      strokeColor: randCol(),
+      fillColor: randCol()
+    })
+    polyline.setMap(map)
+  }
+
+
+  map.setCenter(srcLatLng)
+}
+
+
+// Function that generates random color
+function randCol() {
+  return '#' + Math.floor(Math.random()*16777215).toString(16)
+}
+
+
+// Function that returns random marker URL
+function randMarker() {
+  return markerURLs[
+    Math.floor(Math.random()*markerURLs.length)
+  ]
+}
+
+
+// Function that returns HTML for infoWindow
+function getIWContent(latLng) {
+  var contentString =
+    '<div class="mdl-card__title mdl-card--expand">' +
+      '<h2 class="mdl-card__title-text">Street View</h2>' +
+    '</div>' +
+    '<img src="https://maps.googleapis.com/maps/api/streetview?size=600x300&location='+ latLng.lat +','+ latLng.lng + '&heading=151.78&pitch=-0.76&key=' + apiKey + '"></img>' +
+    '<div class="mdl-card__supporting-text">' +
+      'The image above represents the panorama street view at the given location.' +
+    '</div>' +
+    '<div class="mdl-card__actions mdl-card--border">' +
+      '<button class="mdl-button mdl-js-button mdl-js-ripple-effect button--raised mdl-button--colored">' +
+        '<i class="material-icons">favorite</i> Favorite' +
+      '</button>' +
+    '</div>'
+  return contentString
 }
